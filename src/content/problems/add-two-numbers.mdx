@@ -1,0 +1,64 @@
+---
+number: 2
+title: "Add Two Numbers"
+difficulty: "Medium"
+categories: ["Linked List", "Math", "Simulation"]
+---
+
+# Problem #2 - Add Two Numbers  
+
+## Problem Summary  
+You are given two **non-empty linked lists** representing two non-negative integers.  
+- The digits are stored in **reverse order**, and each node contains a single digit.  
+- Add the two numbers and return the sum as a linked list.  
+
+Example:  
+```text
+Input: (2 -> 4 -> 3) + (5 -> 6 -> 4)
+Output: 7 -> 0 -> 8
+Explanation: 342 + 465 = 807
+```
+
+---
+
+## Approach 1: Iterative Simulation  
+
+### Algorithm  
+1. Initialize a dummy head for the result list.  
+2. Keep pointers `p` and `q` at the heads of the two input lists, and a variable `carry = 0`.  
+3. While either `p` or `q` is not null:  
+   - Get the values from `p` and `q` (0 if null).  
+   - Compute `sum = val1 + val2 + carry`.  
+   - Update `carry = sum // 10`.  
+   - Create a new node with value `sum % 10` and attach it to the result list.  
+   - Move `p` and `q` forward if possible.  
+4. After the loop, if `carry > 0`, append a new node with `carry`.  
+5. Return the result list (skipping the dummy head).  
+
+### Pseudocode  
+```text
+function addTwoNumbers(l1, l2):
+    dummyHead = new ListNode(0)
+    current = dummyHead
+    carry = 0
+
+    while l1 not null OR l2 not null:
+        x = (l1.val if l1 else 0)
+        y = (l2.val if l2 else 0)
+        sum = carry + x + y
+
+        carry = sum // 10
+        current.next = new ListNode(sum % 10)
+        current = current.next
+
+        if l1 not null: l1 = l1.next
+        if l2 not null: l2 = l2.next
+
+    if carry > 0:
+        current.next = new ListNode(carry)
+
+    return dummyHead.next
+```
+
+- Time Complexity: O(max(m, n)), where m and n are the lengths of the two lists.
+- Space Complexity: O(max(m, n)) for the result list.
