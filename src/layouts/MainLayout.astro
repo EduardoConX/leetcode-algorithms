@@ -1,0 +1,41 @@
+---
+import BaseHead from "@/components/BaseHead.astro";
+import { SITE_TITLE, SUBDOMAIN } from "@/consts";
+
+interface Props {
+  siteTitle: string;
+  description: string;
+  pageTitle: string;
+  isProblem?: boolean;
+}
+
+const { siteTitle, description, pageTitle, isProblem = false } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={siteTitle} description={description} />
+  </head>
+  <body class="min-h-screen flex flex-col bg-gray-900">
+    <header class="bg-gray-800 shadow fixed w-full">
+      <div
+        class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center"
+      >
+        <a class="text-3xl font-bold text-gray-100" href={`/${SUBDOMAIN}`}
+          >{SITE_TITLE}</a
+        >
+      </div>
+    </header>
+    <main class="flex-grow py-40 w-4/5 max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row gap-8">
+        <section
+          class="md:w-2/3"
+          class:list={!isProblem ? "flex flex-col gap-8" : "block"}
+        >
+          <slot />
+        </section>
+      </div>
+    </main>
+  </body>
+</html>
