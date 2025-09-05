@@ -1,0 +1,57 @@
+---
+number: 1
+title: "Two Sum"
+difficulty: "Easy"
+categories: ["Array", "Hash Map"]
+---
+
+# Problem #1 - Two Sum  
+
+## Problem Summary  
+Given an array of integers `nums` and an integer `target`, return the indices of the **two numbers** such that they add up to `target`.  
+Each input will have exactly one solution, and you may not use the same element twice.  
+
+---
+
+## Approach 1: Brute Force  
+
+### Algorithm  
+1. Loop over all pairs of numbers `(i, j)` in the array.  
+2. For each pair, check if `nums[i] + nums[j] == target`.  
+3. If yes, return `[i, j]`.  
+
+### Pseudocode  
+```text
+function twoSum(nums, target):
+    for i from 0 to length(nums) - 1:
+        for j from i + 1 to length(nums) - 1:
+            if nums[i] + nums[j] == target:
+                return [i, j]
+```
+
+- Time Complexity: O(n^2)
+- Space Complexity: O(1)
+
+## Approach 2: Hash Map (Optimized)
+
+### Algorithm
+
+1. Initialize an empty hash map (dictionary).
+2. Iterate through the array:
+3. For each element nums[i], calculate complement = target - nums[i].
+4. If complement is already in the hash map, return [hashMap[complement], i].
+5. Otherwise, store nums[i] in the hash map with its index.
+
+### Pseudocode
+```text
+function twoSum(nums, target):
+    hashMap = empty map
+    for i from 0 to length(nums) - 1:
+        complement = target - nums[i]
+        if complement in hashMap:
+            return [hashMap[complement], i]
+        hashMap[nums[i]] = i
+```
+
+- Time Complexity: O(n)
+- Space Complexity: O(n)
