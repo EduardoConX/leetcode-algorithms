@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import { SITE_TITLE, SUBDOMAIN } from "../consts";
 ---
 
 <html lang="en">
@@ -8,9 +9,36 @@ import "../styles/global.css";
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
+    <title>{SITE_TITLE}</title>
   </head>
-  <body>
-    <h1>Astro</h1>
+  <body class="min-h-screen flex flex-col bg-gray-900">
+    <header class="bg-gray-800 shadow fixed w-full">
+      <div
+        class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center"
+      >
+        <a class="text-3xl font-bold text-gray-100" href={`/${SUBDOMAIN}`}
+          >{SITE_TITLE}</a
+        >
+      </div>
+    </header>
+    <main class="flex-grow pt-24 w-4/5 mx-auto max-w-7xl">
+      <section
+        class="text-gray-100 text-center space-y-4 max-w-4xl mx-auto py-16"
+      >
+        <h1 class="text-5xl font-bold">{SITE_TITLE}</h1>
+        <p class="text-xl">
+          Problem-solving is the heart of programming, the ability to analyze a
+          problem, recognize the right approach, and implement an efficient
+          solution is what separates good engineers from great ones.
+        </p>
+        <p class="text-xl">
+          This collection is my personal journey through LeetCode problems,
+          written not just to keep track of solutions, but to build a playbook
+          of algorithms and techniques. Each problem is more than a coding
+          exercise—it is a lesson in problem decomposition, algorithm design,
+          and optimization.
+        </p>
+      </section>
+    </main>
   </body>
 </html>

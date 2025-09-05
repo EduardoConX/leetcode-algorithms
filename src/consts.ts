@@ -1,3 +1,4 @@
-const SITE_TITLE = "Leetcode Algorithms";
-const SITE_DESCRIPTION = "A collection of algorithm from Leetcode problems.";
-const SUBDOMAIN = "leetcode-algorithms";
+export const SITE_TITLE = "Leetcode Algorithms";
+export const SITE_DESCRIPTION =
+  "A collection of algorithm from Leetcode problems.";
+export const SUBDOMAIN = "leetcode-algorithms";
