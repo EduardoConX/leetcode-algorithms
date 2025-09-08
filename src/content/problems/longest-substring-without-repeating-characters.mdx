@@ -1,0 +1,74 @@
+---
+number: 3
+title: "Longest Substring Without Repeating Characters"
+difficulty: "Medium"
+categories: ["String", "Sliding Window", "Hash Set"]
+---
+
+# Problem #3 - Longest Substring Without Repeating Characters  
+
+## Problem Summary  
+Given a string `s`, find the length of the **longest substring** without repeating characters.  
+
+Example:  
+```text
+Input: "abcabcbb"
+Output: 3
+Explanation: "abc" is the longest substring without repeating characters.
+```
+
+---
+
+## Approach 1: Brute Force  
+
+### Algorithm  
+1. Generate all possible substrings.  
+2. For each substring, check if all characters are unique.  
+3. Track the maximum length of valid substrings.  
+
+### Pseudocode  
+```text
+function lengthOfLongestSubstring(s):
+    maxLength = 0
+    for i from 0 to length(s) - 1:
+        for j from i to length(s) - 1:
+            substring = s[i..j]
+            if substring has all unique characters:
+                maxLength = max(maxLength, length(substring))
+    return maxLength
+```
+
+- Time Complexity: O(n^3)
+- Space Complexity: O(min(m, n)), where m is the size of the character set.
+
+## Approach 2: Sliding Window with Hash Set (Optimized)
+
+### Algorithm
+
+1. Use two pointers (left, right) to represent a sliding window.
+2. Maintain a hash set of characters inside the window.
+3. Move right forward:
+4. If s[right] is not in the set, add it and update maxLength.
+5. If s[right] is already in the set, remove characters from the left until the duplicate is gone.
+6. Continue until right reaches the end.
+
+### Pseudocode
+
+```text
+function lengthOfLongestSubstring(s):
+    set = empty hash set
+    left = 0
+    maxLength = 0
+
+    for right from 0 to length(s) - 1:
+        while s[right] in set:
+            remove s[left] from set
+            left += 1
+        add s[right] to set
+        maxLength = max(maxLength, right - left + 1)
+
+    return maxLength
+```
+
+- Time Complexity: O(n)
+- Space Complexity: O(min(m, n)), where m is the size of the character set.
