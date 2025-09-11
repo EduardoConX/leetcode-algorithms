@@ -33,7 +33,7 @@ problems.sort((a, b) => a.data.number - b.data.number);
         problems.map((problem) => (
           <li class="mb-2">
             <a
-              href={`${SUBDOMAIN}/problems/${problem.slug}`}
+              href={`/${SUBDOMAIN}/problems/${problem.slug}`}
               class="hover:underline"
             >
               #{problem.data.number} - {problem.data.title} (
