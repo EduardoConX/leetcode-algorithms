@@ -1,0 +1,98 @@
+---
+number: 4
+title: "Median of Two Sorted Arrays"
+difficulty: "Hard"
+categories: ["Array", "Binary Search", "Divide and Conquer"]
+---
+
+# Problem #4 - Median of Two Sorted Arrays  
+
+## Problem Summary  
+Given two sorted arrays `nums1` and `nums2` of size `m` and `n`, return the **median** of the two sorted arrays.  
+
+The overall run time complexity should be **O(log (m+n))**.  
+
+Example:  
+
+```text
+Input: nums1 = [1,3], nums2 = [2]
+Output: 2.0
+Explanation: The merged array = [1,2,3], and median is 2.
+```
+
+---
+
+## Approach 1: Merge and Find Median (Brute Force)  
+
+### Algorithm  
+1. Merge both sorted arrays into one sorted array.  
+2. Find the median of the merged array:  
+   - If the total length is odd → middle element.  
+   - If even → average of the two middle elements.  
+
+### Pseudocode  
+```text
+function findMedianSortedArrays(nums1, nums2):
+    merged = merge(nums1, nums2)  // O(m+n)
+    totalLength = length(merged)
+    if totalLength is odd:
+        return merged[totalLength // 2]
+    else:
+        mid1 = merged[(totalLength // 2) - 1]
+        mid2 = merged[totalLength // 2]
+        return (mid1 + mid2) / 2
+```
+- Time Complexity: O(m + n)
+- Space Complexity: O(m + n)
+
+## Approach 2: Binary Search (Optimized)
+
+### Algorithm
+1. Always apply binary search on the smaller array (nums1).
+2. Partition both arrays such that:
+- Elements on the left side of the partition are ≤ elements on the right side.
+- The number of elements on the left side = number of elements on the right side (or differ by 1 if total length is odd).
+3. Let partitions be:
+- leftX, rightX from nums1
+- leftY, rightY from nums2
+4. Check conditions:
+- If leftX `<=` rightY and leftY `<=` rightX → correct partition found.
+- Otherwise, move search boundaries.
+6. Compute median:
+- If total length is even → median = (max(leftX, leftY) + min(rightX, rightY)) / 2
+- If odd → median = max(leftX, leftY).
+
+### Pseudocode
+```text
+function findMedianSortedArrays(nums1, nums2):
+    if length(nums1) > length(nums2):
+        swap(nums1, nums2)
+
+    x = length(nums1)
+    y = length(nums2)
+    low = 0
+    high = x
+
+    while low <= high:
+        partitionX = (low + high) // 2
+        partitionY = (x + y + 1) // 2 - partitionX
+
+        leftX = if partitionX == 0 then -∞ else nums1[partitionX - 1]
+        rightX = if partitionX == x then ∞ else nums1[partitionX]
+
+        leftY = if partitionY == 0 then -∞ else nums2[partitionY - 1]
+        rightY = if partitionY == y then ∞ else nums2[partitionY]
+
+        if leftX <= rightY and leftY <= rightX:
+            if (x + y) is even:
+                return (max(leftX, leftY) + min(rightX, rightY)) / 2
+            else:
+                return max(leftX, leftY)
+        else if leftX > rightY:
+            high = partitionX - 1
+        else:
+            low = partitionX + 1
+```
+
+- Time Complexity: O(log(min(m, n)))
+- Space Complexity: O(1)
