@@ -1,0 +1,112 @@
+---
+number: 5
+title: "Longest Palindromic Substring"
+difficulty: "Medium"
+categories: ["String", "Two Pointers", "Expand Around Center", "Dynamic Programming"]
+---
+
+# Problem #5 - Longest Palindromic Substring
+
+## Problem Summary  
+Given a string `s`, return the **longest palindromic substring** contained in `s`.
+
+Example:  
+```text
+Input: "babad"
+Output: "bab"    // "aba" is also valid
+```
+
+---
+
+## Approach 1: Brute Force
+
+### Algorithm
+1. Consider every possible substring `s[i..j]`.  
+2. For each substring, check whether it is a palindrome.  
+3. Track and return the longest palindromic substring found.
+
+### Pseudocode
+```text
+function longestPalindrome(s):
+    n = length(s)
+    if n == 0: return ""
+
+    maxLen = 1
+    start = 0
+
+    for i from 0 to n - 1:
+        for j from i to n - 1:
+            if isPalindrome(s, i, j) and (j - i + 1) > maxLen:
+                start = i
+                maxLen = j - i + 1
+
+    return substring(s, start, start + maxLen - 1)
+
+function isPalindrome(s, left, right):
+    while left < right:
+        if s[left] != s[right]:
+            return false
+        left += 1
+        right -= 1
+    return true
+```
+- Time Complexity: O(n^3) (O(n^2) substrings * O(n) to check palindrome)
+- Space Complexity: O(1)
+
+---
+
+## Approach 2: Expand Around Center (Recommended)
+
+### Algorithm
+1. A palindrome mirrors around its center. For a string of length `n` there are `2n - 1` possible centers (each character for odd-length palindromes, and each gap between characters for even-length palindromes).  
+2. For each center, expand left and right while characters match.  
+3. Keep track of the longest palindromic window found and return that substring.
+
+> Note: in prose I use backticks for comparisons like `<=` or `==` to avoid MDX parsing issues.
+
+### Pseudocode
+```text
+function expandAroundCenter(s, left, right):
+    n = length(s)
+    while left >= 0 and right < n and s[left] == s[right]:
+        left -= 1
+        right += 1
+    // when loop stops, palindrome is s[left+1 .. right-1]
+    return (left + 1, right - 1)
+
+function longestPalindrome(s):
+    n = length(s)
+    if n == 0: return ""
+
+    bestStart = 0
+    bestEnd = 0
+
+    for i from 0 to n - 1:
+        // odd-length center (single char)
+        (l1, r1) = expandAroundCenter(s, i, i)
+        if (r1 - l1) > (bestEnd - bestStart):
+            bestStart = l1
+            bestEnd = r1
+
+        // even-length center (between chars)
+        (l2, r2) = expandAroundCenter(s, i, i + 1)
+        if (r2 - l2) > (bestEnd - bestStart):
+            bestStart = l2
+            bestEnd = r2
+
+    return substring(s, bestStart, bestEnd)
+```
+- Time Complexity: O(n^2)
+- Space Complexity: O(1)
+
+---
+
+## Alternative Approaches (brief)
+- **Dynamic Programming**: fill a DP table `dp[i][j]` indicating whether `s[i..j]` is a palindrome. Time `O(n^2)`, Space `O(n^2)`.  
+- **Manacher’s Algorithm**: linear-time `O(n)` algorithm that finds longest palindromic substring with preprocessing — more complex to implement, but optimal.
+
+---
+
+## Key Insight  
+Every palindrome is symmetric around a center. Expanding from each possible center avoids checking all substrings and gives a clean `O(n^2)` solution that is easy to reason about and implement.
+
