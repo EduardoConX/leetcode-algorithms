@@ -72,3 +72,9 @@ function lengthOfLongestSubstring(s):
 
 - Time Complexity: O(n)
 - Space Complexity: O(min(m, n)), where m is the size of the character set.
+
+---
+
+## Key Insight
+
+The brute force approach is too slow. The sliding window technique optimizes by expanding the substring with the right pointer and shrinking it with the left pointer only when necessary. This ensures linear time performance.
