@@ -1,0 +1,94 @@
+---
+number: 6
+title: "Zigzag Conversion"
+difficulty: "Medium"
+categories: ["String", "Simulation"]
+---
+
+# Problem #6 - Zigzag Conversion
+
+## Problem Summary  
+Given a string `s` and an integer `numRows`, arrange the characters in a **zigzag pattern** on the given number of rows, then read the result row by row.  
+
+Example:  
+```text
+Input: s = "PAYPALISHIRING", numRows = 3  
+
+Pattern:
+P   A   H   N
+A P L S I I G
+Y   I   R
+
+Output: "PAHNAPLSIIGYIR"
+```
+
+---
+
+## Approach 1: Simulation with Direction Tracking
+
+### Algorithm
+1. Create an array of strings, one for each row.  
+2. Traverse each character in `s`.  
+3. Append the character to the current row.  
+4. Move the row pointer down until reaching the bottom, then reverse direction and move up.  
+5. Concatenate all rows at the end.  
+
+### Pseudocode
+```text
+function convert(s, numRows):
+    if numRows == 1: return s
+
+    rows = array of empty strings with size numRows
+    currentRow = 0
+    goingDown = false
+
+    for char in s:
+        rows[currentRow] += char
+        if currentRow == 0 or currentRow == numRows - 1:
+            goingDown = not goingDown
+        if goingDown:
+            currentRow += 1
+        else:
+            currentRow -= 1
+
+    return join(rows)
+```
+- Time Complexity: O(n) where n is the length of the string `s`.
+- Space Complexity: O(n) for storing the rows.
+
+---
+
+## Approach 2: Mathematical Index Calculation
+
+### Algorithm
+1. The zigzag has a **cycle length** of `2 * numRows - 2`.  
+2. For each row:  
+   - Take characters at positions `i + cycleLen * k`.  
+   - For middle rows, also take diagonal characters at `i + cycleLen * k + (cycleLen - 2 * i)`.  
+3. Concatenate characters in row order.  
+
+### Pseudocode
+```text
+function convert(s, numRows):
+    if numRows == 1: return s
+
+    cycleLen = 2 * numRows - 2
+    result = ""
+
+    for i from 0 to numRows - 1:
+        for j from 0 to length(s) step cycleLen:
+            if j + i < length(s):
+                result += s[j + i]
+            if i != 0 and i != numRows - 1 and j + cycleLen - i < length(s):
+                result += s[j + cycleLen - i]
+
+    return result
+```
+
+- Time Complexity: O(n) where n is the length of the string `s`.
+- Space Complexity: O(1) if we ignore the output string space.
+---
+
+## Key Insight  
+- The **simulation approach** is intuitive and easy to implement.  
+- The **mathematical approach** leverages the cycle structure for more direct indexing and avoids extra space for row arrays.  
