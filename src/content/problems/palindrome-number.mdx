@@ -1,0 +1,86 @@
+---
+number: 9
+title: "Palindrome Number"
+difficulty: "Easy"
+categories: ["Math", "Integer Manipulation", "Two Pointer"]
+---
+
+# Problem #9 - Palindrome Number
+
+## Problem Summary
+
+Given an integer `x`, determine whether it is a **palindrome** — that is, it reads the same forward and backward.  
+
+For example:
+- `121` → true  
+- `-121` → false  
+- `10` → false  
+
+You must solve this **without converting the integer to a string** (although that's one of the possible approaches).
+
+---
+
+## 💡 Approach 1: Reverse Integer Approach
+
+### Algorithm
+1. If `x` is negative → return `false`.
+2. Initialize `reversed` as 0.
+3. Create a copy `n = x`.
+4. While `n` is not 0:
+   - Extract the last digit: `digit = n mod 10`
+   - Update `reversed = reversed * 10 + digit`
+   - Remove the last digit from `n`: `n = n div 10`
+5. Compare `reversed` with the original number:
+   - If equal → return `true`
+   - Otherwise → return `false`
+
+### Pseudocode
+
+```text
+if x < 0:
+    return false
+
+original = x
+reversed = 0
+
+while x ≠ 0:
+    digit = x mod 10
+    reversed = reversed * 10 + digit
+    x = x div 10
+
+return reversed = original
+```
+- Time Complexity: O(log₁₀(n)) where n is the value of `x` (number of digits).
+- Space Complexity: O(1).
+
+---
+
+## Approach 2: Half Reversal Optimization
+
+### Steps
+1. If `x` is negative or ends with 0 (but not 0 itself), return `false`.
+2. Initialize `reversedHalf = 0`.
+3. While `x > reversedHalf`:
+   - Move last digit from `x` to `reversedHalf`.
+4. After the loop:
+   - If `x == reversedHalf` (even number of digits)  
+     or `x == reversedHalf div 10` (odd number of digits) → return `true`
+   - Else → return `false`
+
+### Pseudocode
+
+```text
+if x < 0 or (x mod 10 = 0 and x ≠ 0):
+    return false
+
+reversedHalf = 0
+while x > reversedHalf:
+    digit = x mod 10
+    reversedHalf = reversedHalf * 10 + digit
+    x = x div 10
+
+return x = reversedHalf or x = reversedHalf div 10
+```
+
+- Time Complexity: O(log₁₀(n)) where n is the value of `x` (number of digits).
+- Space Complexity: O(1).
