@@ -1,0 +1,91 @@
+---
+number: 10
+title: "Regular Expression Matching"
+difficulty: "Hard"
+categories: ["Dynamic Programming", "Recursion"]
+---
+
+# Challenge #10 - Regular Expression Matching
+
+## Problem Summary
+
+Given an input string `s` and a pattern `p`, implement **regular expression matching** with support for:
+- `.` which matches **any single character**
+- `*` which matches **zero or more of the preceding element**
+
+The matching should **cover the entire input string**, not just a part of it.
+
+### Examples
+
+| Input | Pattern | Output | Explanation |
+|--------|----------|---------|--------------|
+| s = "aa", p = "a" | "a" | false | `'a'` does not match `"aa"` fully |
+| s = "aa", p = "a*" | "a*" | true | `'a*'` means zero or more `'a'` |
+| s = "ab", p = ".*" | ".*" | true | `'.*'` means any character repeated |
+
+---
+
+## 💡 Approach 1: Recursive Approach
+
+### Algorithm
+1. If `p` is empty → return `true` only if `s` is also empty.  
+2. Check if the first character matches:
+   - Either `s[0] == p[0]` or `p[0] == '.'`.  
+3. If the second character in `p` is `*`:
+   - Return `true` if either:
+     - Skip the `x*` pattern (`match(s, substring of p from index 2)`)
+     - Or use one instance (`firstMatch` is true and `match(substring of s from index 1, p)`).  
+4. Otherwise, move both pointers forward if the first characters match.
+
+### Pseudocode
+
+```text
+if p is empty:
+    return (s is empty)
+
+firstMatch = (s not empty) and (p[0] = s[0] or p[0] = '.')
+
+if (length of p >= 2) and (p[1] = '*'):
+    return isMatch(s, substring of p starting at index 2)
+        or (firstMatch and isMatch(substring of s starting at index 1, p))
+else:
+    return firstMatch and isMatch(substring of s starting at index 1,
+        substring of p starting at index 1)
+```
+- Time Complexity: O(2^(m+n)) in the worst case, where m and n are lengths of `s` and `p`.
+- Space Complexity: O(m+n) due to recursion stack.
+
+---
+
+## 💡 Approach 2: Dynamic Programming (Bottom-Up)
+
+### Steps
+1. Create a 2D boolean table `dp` of size `(len(s)+1) × (len(p)+1)`.  
+2. Set `dp[m][n] = true` (empty string matches empty pattern).  
+3. Fill the table backwards:
+   - `firstMatch = (i < m)` and `(p[j] = s[i] or p[j] = '.')`.
+   - If `(j + 1 < n)` and `(p[j+1] = '*')`:
+     - `dp[i][j] = dp[i][j+2]` (zero occurrence)
+     - Or `(firstMatch and dp[i+1][j])` (one or more occurrences)
+   - Else:
+     - `dp[i][j] = firstMatch and dp[i+1][j+1]`.  
+4. Return `dp[0][0]`.
+
+### Pseudocode
+
+```text
+create matrix dp of size (m+1) × (n+1), filled with false
+dp[m][n] = true
+
+for i from m down to 0:
+    for j from n-1 down to 0:
+        firstMatch = (i < m) and (p[j] = s[i] or p[j] = '.')
+        if (j + 1 < n) and (p[j+1] = '*'):
+            dp[i][j] = dp[i][j+2] or (firstMatch and dp[i+1][j])
+        else:
+            dp[i][j] = firstMatch and dp[i+1][j+1]
+
+return dp[0][0]
+```
+- Time Complexity: O(m×n) where m and n are lengths of `s` and `p`.
+- Space Complexity: O(m×n) for the DP table.
