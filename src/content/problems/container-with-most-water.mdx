@@ -1,0 +1,110 @@
+---
+number: 11
+title: "Container With Most Water"
+difficulty: "Medium"
+categories: ["Array", "Two Pointers", "Greedy"]
+---
+
+# Challenge #10 - Container With Most Water
+
+## Problem Summary
+
+You are given an integer array `height` of length `n`.  
+There are `n` vertical lines drawn such that the two endpoints of the `i`-th line are at `(i, 0)` and `(i, height[i])`.
+
+Find **two lines** that together with the x-axis form a container that holds the **most water**.
+
+Return *the maximum amount of water* a container can store.
+
+---
+
+## Example
+
+**Input:**
+
+```javascript
+height = [1,8,6,2,5,4,8,3,7]
+```
+
+
+**Output:**
+
+```javascript
+49
+```
+
+
+**Explanation:**  
+The container formed between lines at index `1` and `8` can hold up to `49` units of water (`min(8, 7) * (8 - 1)`).
+
+## Approach
+
+This problem can be solved efficiently using the **two-pointer technique**.
+
+### Key Idea
+
+- Start with one pointer at the beginning (`left`) and one at the end (`right`).  
+- Calculate the area formed between the two lines.  
+- Move the pointer pointing to the **shorter** line inward since that’s the limiting factor for the area.  
+- Continue until both pointers meet.
+
+This yields an **O(n)** solution — much faster than checking all pairs (O(n²)).
+
+---
+
+## Algorithm (Pseudocode)
+
+```text
+set left = 0
+set right = n - 1
+set maxArea = 0
+
+while left < right:
+    heightLeft = height[left]
+    heightRight = height[right]
+    width = right - left
+    currentArea = min(heightLeft, heightRight) * width
+    maxArea = max(maxArea, currentArea)
+
+    if heightLeft < heightRight:
+        left = left + 1
+    else:
+        right = right - 1
+
+return maxArea
+```
+
+---
+
+## JavaScript Implementation
+
+```javascript
+function maxArea(height) {
+  let left = 0;
+  let right = height.length - 1;
+  let maxArea = 0;
+
+  while (left < right) {
+    const width = right - left;
+    const currentArea = Math.min(height[left], height[right]) * width;
+    maxArea = Math.max(maxArea, currentArea);
+
+    if (height[left] < height[right]) {
+      left++;
+    } else {
+      right--;
+    }
+  }
+
+  return maxArea;
+}
+```
+
+---
+
+## Complexity Analysis
+
+- **Time Complexity:** `O(n)` — we traverse the array once.  
+- **Space Complexity:** `O(1)` — we only use constant extra space.
+
+---
