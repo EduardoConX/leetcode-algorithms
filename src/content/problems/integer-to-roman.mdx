@@ -1,0 +1,112 @@
+---
+number: 12
+title: "Integer to Roman"
+difficulty: "Medium"
+categories: ["Math", "Greedy", "String",'Mapping']
+---
+
+# Challenge #11 - Integer to Roman
+
+## Problem Description
+
+Roman numerals are represented by seven symbols:
+
+| Symbol | Value |
+|:------:|:------:|
+| I | 1 |
+| V | 5 |
+| X | 10 |
+| L | 50 |
+| C | 100 |
+| D | 500 |
+| M | 1000 |
+
+Given an integer `num`, convert it into a **Roman numeral**.
+
+---
+
+## Example
+
+**Input:**
+
+```javascript
+num = 1994
+```
+
+**Output:**
+
+```text
+MCMXCIV
+```
+
+**Explanation:**  
+- M = 1000  
+- CM = 900  
+- XC = 90  
+- IV = 4  
+Total = 1994
+
+---
+
+## Approach
+
+Roman numerals follow **subtractive notation**, where smaller symbols can precede larger ones (like IV = 4, IX = 9, etc.).  
+We can solve this using a **greedy approach**:
+
+1. Prepare a list of numeral-value pairs in descending order.  
+2. Subtract the largest possible value from the number.  
+3. Append the corresponding symbol to the result.  
+4. Repeat until the number becomes zero.
+
+---
+
+## Algorithm (Pseudocode)
+
+```text
+roman_map = [
+  (1000, "M"), (900, "CM"), (500, "D"), (400, "CD"),
+  (100, "C"), (90, "XC"), (50, "L"), (40, "XL"),
+  (10, "X"), (9, "IX"), (5, "V"), (4, "IV"), (1, "I")
+]
+
+set result = ""
+
+for each (value, symbol) in roman_map:
+    while num >= value:
+        append symbol to result
+        num = num - value
+
+return result
+```
+
+---
+
+## JavaScript Implementation
+
+```javascript
+function intToRoman(num) {
+  const romanMap = [
+    [1000, 'M'], [900, 'CM'], [500, 'D'], [400, 'CD'],
+    [100, 'C'], [90, 'XC'], [50, 'L'], [40, 'XL'],
+    [10, 'X'], [9, 'IX'], [5, 'V'], [4, 'IV'], [1, 'I']
+  ];
+
+  let result = '';
+  for (const [value, symbol] of romanMap) {
+    while (num >= value) {
+      result += symbol;
+      num -= value;
+    }
+  }
+  return result;
+}
+```
+
+---
+
+## Complexity Analysis
+
+- **Time Complexity:** `O(1)` — since the number of Roman numerals is fixed (only up to 3999).  
+- **Space Complexity:** `O(1)` — constant extra space for result storage.
+
+---
