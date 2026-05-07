@@ -1,20 +1,20 @@
 ---
 import type { GetStaticPaths } from "astro";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 import MainLayout from "../../layouts/MainLayout.astro";
 import "../../styles/post.css";
 
 export const getStaticPaths = (async () => {
   const problems = await getCollection("problems");
   return problems.map((problem) => ({
-    params: { slug: problem.slug },
+    params: { slug: problem.data.slug },
     props: { problem },
   }));
 }) satisfies GetStaticPaths;
 
 const { problem } = Astro.props;
 const { data } = problem;
-const { Content } = await problem.render();
+const { Content } = await render(problem);
 ---
 
 <MainLayout
