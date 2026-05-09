@@ -1,0 +1,7 @@
+allowBuilds:
+  '@tailwindcss/oxide': set this to true or false
+  esbuild: set this to true or false
+  sharp: set this to true or false
+minimumReleaseAgeExclude:
+  - postcss@8.5.10
+  - fast-xml-builder@1.1.7
