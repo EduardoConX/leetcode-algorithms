@@ -6,3 +6,9 @@ minimumReleaseAgeExclude:
   - postcss@8.5.10
   - fast-xml-builder@1.1.7
   - devalue@5.8.1
+  - esbuild@0.28.1
+  - tar@7.5.16
+  - vite@7.3.5
+  - js-yaml@4.1.2
+  - astro@6.3.3
+  - astro@6.4.6
